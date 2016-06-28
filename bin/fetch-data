@@ -1,0 +1,10 @@
+#!/bin/sh
+
+L='https://raw.githubusercontent.com/jpatokal/openflights/master/data/routes.dat
+https://raw.githubusercontent.com/jpatokal/openflights/master/data/airports.dat
+'
+
+for f in $L
+do
+    wget "$f"
+done
