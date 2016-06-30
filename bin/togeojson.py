@@ -40,14 +40,28 @@ def main():
 
     airport_dict = {airport.code: airport for airport in airports}
 
-
     for row in airports:
         features.append(dict(type='Feature',
           geometry=dict(type='Point',
             coordinates=[row.longitude, row.latitude])))
+
+    for route in routes:
+        source_code = route[2]
+        dest_code = route[4]
+        if source_code not in airport_dict:
+            continue
+        if dest_code not in airport_dict:
+            continue
+        source = airport_dict[source_code]
+        dest = airport_dict[dest_code]
+        features.append(dict(type='Feature',
+          geometry=dict(type='LineString',
+            coordinates=[[source.longitude, source.latitude],
+                         [dest.longitude, dest.latitude]])))
+
     with open('airports.geojson', 'wb') as j:
         json.dump(geo, j)
-            
+
 
 if __name__ == '__main__':
     sys.exit(main())
